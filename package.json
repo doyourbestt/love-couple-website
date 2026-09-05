@@ -1,0 +1,29 @@
+{
+  "name": "love-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx vite --host",
+    "build": "npx tsc -b && npx vite build",
+    "lint": "eslint .",
+    "preview": "npx vite preview",
+    "check": "npx tsc -b --noEmit"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.5.5",
+    "lucide-react": "^1.33.0",
+    "postcss": "^8.5.28",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vite-tsconfig-paths": "^6.1.1"
+  }
+}
