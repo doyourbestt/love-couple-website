@@ -1,6 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useUserStore } from '../store/userStore';
-import { Save, RotateCcw, Heart, Code } from 'lucide-react';
+import { usePhotoStore } from '../store/photoStore';
+import {
+  Save,
+  RotateCcw,
+  Heart,
+  Code,
+  Download,
+  Upload,
+  Rocket,
+} from 'lucide-react';
+import {
+  downloadConfig,
+  importFromFile,
+} from '../utils/exportImport';
 
 const SettingsPage: React.FC = () => {
   const {
@@ -12,9 +25,12 @@ const SettingsPage: React.FC = () => {
     devMode,
     setDevMode,
   } = useUserStore();
+  const { photos } = usePhotoStore();
   const [name, setName] = useState(partnerName);
   const [date, setDate] = useState(startDate);
   const [saved, setSaved] = useState(false);
+  const [importMsg, setImportMsg] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     setPartnerName(name);
@@ -28,6 +44,27 @@ const SettingsPage: React.FC = () => {
       reset();
       setName('彤彤 ❤️ 苏木');
       setDate('2026-09-03');
+    }
+  };
+
+  const handleExport = () => {
+    downloadConfig();
+    setImportMsg('已下载配置 JSON，把文件发给我，我会帮你部署到 GitHub Pages');
+    setTimeout(() => setImportMsg(''), 5000);
+  };
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      await importFromFile(file);
+      setImportMsg('导入成功！记得点保存设置');
+      setTimeout(() => setImportMsg(''), 3000);
+      // 刷新本地 input
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    } catch (err) {
+      setImportMsg('导入失败：JSON 文件格式错误');
+      setTimeout(() => setImportMsg(''), 3000);
     }
   };
 
@@ -130,6 +167,49 @@ const SettingsPage: React.FC = () => {
             </>
           )}
         </button>
+
+        {/* 部署工作流（开发者模式才显示） */}
+        {devMode && (
+          <div className="rounded-2xl bg-gradient-to-br from-yellow-50 to-amber-50 p-5 shadow-md ring-2 ring-yellow-300">
+            <div className="mb-3 flex items-center gap-2">
+              <Rocket size={20} className="text-yellow-600" />
+              <h3 className="font-bold text-gray-800">部署到手机</h3>
+            </div>
+            <p className="mb-3 text-xs leading-relaxed text-gray-600">
+              完成所有编辑后，导出配置 JSON 发给我，我会帮你部署到 GitHub Pages，手机刷新即可看到新内容。
+              <br />
+              当前已编辑 {photos.length} 张图片。
+            </p>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleExport}
+                className="flex items-center justify-center gap-2 rounded-xl bg-yellow-500 py-2.5 text-sm font-bold text-white shadow transition-all hover:bg-yellow-600 active:scale-95"
+              >
+                <Download size={16} />
+                导出配置 JSON
+              </button>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center justify-center gap-2 rounded-xl border-2 border-yellow-400 bg-white py-2.5 text-sm font-bold text-yellow-700 transition-all hover:bg-yellow-50 active:scale-95"
+              >
+                <Upload size={16} />
+                导入配置 JSON
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json,application/json"
+                className="hidden"
+                onChange={handleImport}
+              />
+              {importMsg && (
+                <div className="rounded-lg bg-yellow-100 px-3 py-2 text-xs text-yellow-800">
+                  {importMsg}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <button
           onClick={handleReset}
