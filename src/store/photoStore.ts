@@ -15,18 +15,18 @@ interface PhotoState {
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
-// 默认照片数据 - 彤彤和苏木主题（从导出的 JSON 导入）
+// 默认照片数据 - 用 jsDelivr CDN 加速（国内手机访问稳定）
 const defaultPhotos: PhotoItem[] = [
   {
     id: '3',
-    src: 'https://github.com/doyourbestt/love-photos/blob/main/b1b54b3c7c84d76147ddb66038073445.jpg?raw=true',
+    src: 'https://cdn.jsdelivr.net/gh/doyourbestt/love-photos@main/b1b54b3c7c84d76147ddb66038073445.jpg',
     caption: '我偏无理取闹，除非先生抱抱。',
     createdAt: 1788429226204,
     edited: true,
   },
   {
     id: '4',
-    src: 'https://github.com/doyourbestt/love-photos/blob/main/e5b915a9bf1a359fe68b3117cff2bc8a.jpg?raw=true',
+    src: 'https://cdn.jsdelivr.net/gh/doyourbestt/love-photos@main/e5b915a9bf1a359fe68b3117cff2bc8a.jpg',
     caption: '遇见你，就好像捡到了120斤运气',
     createdAt: 1788342826204,
   },
