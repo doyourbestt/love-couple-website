@@ -29,7 +29,7 @@ function App() {
       {/* 全局左上角悬浮设置按钮（任何页面都可见） */}
       <button
         onClick={() => setCurrentTab('settings')}
-        className={`fixed left-3 top-3 z-[60] flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold shadow-lg backdrop-blur-md transition-all active:scale-95 ${
+        className={`fixed left-3 top-3 z-40 flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-bold shadow-lg backdrop-blur-md transition-all active:scale-95 ${
           currentTab === 'settings'
             ? 'bg-gradient-to-r from-rose-400 to-pink-500 text-white shadow-pink-300'
             : 'bg-white/90 text-pink-500 ring-1 ring-pink-200 hover:bg-white'
