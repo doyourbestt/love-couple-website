@@ -21,7 +21,7 @@ export const GalleryPage: React.FC = () => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target?.result as string;
-      addPhoto(dataUrl, newCaption);
+      addPhoto(dataUrl);
     };
     reader.readAsDataURL(file);
   };
@@ -40,7 +40,7 @@ export const GalleryPage: React.FC = () => {
 
   const handleAddNew = () => {
     if (!newUrl.trim()) return;
-    addPhoto(newUrl, newCaption);
+    addPhoto(newUrl);
     setNewUrl('');
     setNewCaption('');
     setShowAdd(false);

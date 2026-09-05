@@ -102,7 +102,7 @@ export const HomePage: React.FC = () => {
   };
   const publishNew = () => {
     if (!newUrl.trim()) return;
-    addPhoto(newUrl, newCaption);
+    addPhoto(newUrl);
     setNewUrl('');
     setNewCaption('');
     setAddingNew(false);

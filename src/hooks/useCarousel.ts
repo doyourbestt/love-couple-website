@@ -24,7 +24,7 @@ export function useCarousel(options: UseCarouselOptions): UseCarouselReturn {
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef(0);
   const dragOffset = useRef(0);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const goTo = useCallback((index: number) => {
     if (index < 0) {

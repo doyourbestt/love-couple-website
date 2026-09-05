@@ -58,12 +58,12 @@ export const LoveDayCard: React.FC<LoveDayCardProps> = ({ partnerName, startDate
           <p className="text-sm text-white/90">
             距离下一个纪念日还有
             <span className="mx-1 text-lg font-bold text-yellow-200">
-              {nextAnniversary.daysUntil}
+              {nextAnniversary}
             </span>
             天
           </p>
           <p className="mt-1 text-xs text-white/70">
-            第 {nextAnniversary.anniversaryNumber} 个纪念日
+            第 {Math.floor((days) / 365) + 1} 个纪念日
           </p>
         </div>
       </div>
