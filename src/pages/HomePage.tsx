@@ -324,17 +324,20 @@ export const HomePage: React.FC = () => {
                   <div className="absolute right-2 top-2 z-20 flex items-center gap-1">
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
                         const newCaption = window.prompt('修改文案', photo.caption || '');
                         if (newCaption === null) return;
                         const newUrl = window.prompt('修改图片 URL', photo.src);
                         if (newUrl === null || !newUrl.trim()) return;
                         updatePhoto(photo.id, { caption: newCaption, src: newUrl, edited: true });
+                        alert('已保存！点左上角「设置」→「导出 JSON」发给我，我会帮你部署到手机');
                       }}
-                      className="rounded-full bg-white/90 p-1.5 text-pink-500 shadow hover:bg-pink-50"
+                      className="rounded-full bg-white/95 p-2 text-pink-500 shadow-lg ring-1 ring-pink-200 hover:bg-pink-50"
                       title="编辑"
                     >
-                      <Edit3 size={14} />
+                      <Edit3 size={16} />
                     </button>
                     <button
                       type="button"
