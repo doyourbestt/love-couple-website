@@ -70,7 +70,46 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 via-pink-50 to-white pb-28">
-      <div className="bg-gradient-to-br from-rose-400 via-pink-400 to-rose-500 px-4 pb-6 pt-8">
+      {/* 左上角快捷面板：开发者模式 + 保存 + 部署 */}
+      <div className="sticky top-0 z-30 border-b border-pink-200 bg-white/90 px-3 py-2 shadow-sm backdrop-blur-md">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setDevMode(!devMode)}
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm transition-all ${
+              devMode
+                ? 'bg-yellow-300 text-yellow-900'
+                : 'bg-gray-100 text-gray-500'
+            }`}
+            title="开发者模式"
+          >
+            <Code size={14} />
+            {devMode ? '开发者 ON' : '开发者 OFF'}
+          </button>
+          <button
+            onClick={handleSave}
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold shadow-sm transition-all ${
+              saved
+                ? 'bg-green-500 text-white'
+                : 'bg-gradient-to-r from-rose-400 to-pink-500 text-white'
+            }`}
+          >
+            {saved ? <Heart size={14} className="fill-white" /> : <Save size={14} />}
+            {saved ? '已保存' : '保存设置'}
+          </button>
+          {devMode && (
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-1.5 rounded-full bg-yellow-500 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-yellow-600 active:scale-95"
+              title="导出配置 JSON 发给我部署"
+            >
+              <Download size={14} />
+              导出 JSON
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="bg-gradient-to-br from-rose-400 via-pink-400 to-rose-500 px-4 pb-6 pt-6">
         <h1 className="text-center text-2xl font-bold text-white drop-shadow-md">
           设置
         </h1>
