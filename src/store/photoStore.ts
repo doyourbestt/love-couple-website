@@ -19,15 +19,15 @@ const generateId = () => Math.random().toString(36).substring(2, 9);
 const defaultPhotos: PhotoItem[] = [
   {
     id: '3',
-    src: 'https://github.com/doyourbestt/love-photos/blob/main/3cf6dd6a897379afbe3a2d52152f6325.jpg?raw=true',
-    caption: '喜欢是两手空空，是眼眶红红，是蠢蠢欲动。',
+    src: 'https://github.com/doyourbestt/love-photos/blob/main/b1b54b3c7c84d76147ddb66038073445.jpg?raw=true',
+    caption: '我偏无理取闹，除非先生抱抱。',
     createdAt: 1788429226204,
     edited: true,
   },
   {
     id: '4',
-    src: 'https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=anime%20couple%20under%20a%20starry%20night%20sky%2C%20fireflies%20glowing%2C%20dreamy%20atmosphere%2C%20romantic%20and%20fantasy%2C%20pastel%20colors%2C%20anime%20style&image_size=landscape_4_3',
-    caption: '今晚的星星都亮了，因为你在身旁。',
+    src: 'https://github.com/doyourbestt/love-photos/blob/main/e5b915a9bf1a359fe68b3117cff2bc8a.jpg?raw=true',
+    caption: '遇见你，就好像捡到了120斤运气',
     createdAt: 1788342826204,
   },
 ];
