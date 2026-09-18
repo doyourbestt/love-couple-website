@@ -1,7 +1,8 @@
 $ErrorActionPreference = "Continue"
 $repo = "doyourbestt/love-couple-website"
 $branch = "gh-pages"
-$token = "REDACTED_TOKEN2"
+$token = $env:GH_TOKEN
+if (-not $token) { $token = "PLEASE_SET_GH_TOKEN_ENV" }
 
 $headers = @{
     Authorization          = "Bearer $token"
