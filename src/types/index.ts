@@ -3,6 +3,7 @@ export interface UserConfig {
   partnerName: string;
   startDate: string;
   avatar?: string;
+  backgroundImage?: string; // 全站背景图片 URL
 }
 
 // 照片项

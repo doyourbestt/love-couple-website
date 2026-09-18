@@ -13,6 +13,52 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FFF9FC 0%, #F8E8F0 50%, #E6D5F0 100%);
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #4A4A4A;
+}
+
+/* 玻璃拟态卡片底色 */
+.bg-card-bg {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+body {
+  position: relative;
+}
+
+/* 全站背景图片（类似 our-time 渐变 + 图片叠加效果） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--bg-image-url, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* 当 .with-bg-image 类添加到 body 时显示背景图 */
+body.with-bg-image::before {
+  opacity: 0.35;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255,249,252,0.6) 0%, rgba(248,232,240,0.55) 50%, rgba(230,213,240,0.6) 100%);
+  pointer-events: none;
+}
+
 /* 移动端安全区域适配 */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .h-safe-bottom {

@@ -20,7 +20,7 @@ interface TimelineState {
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
-// 默认时间轴 - 彤彤和苏木的故事
+// 默认时间轴 - 心系小琪和我系小琪的故事
 const defaultEvents: TimelineEvent[] = [
   {
     id: '1',
@@ -33,7 +33,7 @@ const defaultEvents: TimelineEvent[] = [
   {
     id: '2',
     title: '在一起',
-    eventDate: '2026-09-03',
+    eventDate: '2026-09-15',
     description: '从今天起，你是我的女孩，我是你的先生。往后余生，请多指教。',
     icon: '💍',
     image: 'https://cdn.jsdelivr.net/gh/doyourbestt/love-photos@main/e5b915a9bf1a359fe68b3117cff2bc8a.jpg',

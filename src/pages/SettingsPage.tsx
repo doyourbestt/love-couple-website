@@ -19,8 +19,10 @@ const SettingsPage: React.FC = () => {
   const {
     partnerName,
     startDate,
+    backgroundImage,
     setPartnerName,
     setStartDate,
+    setBackgroundImage,
     reset,
     devMode,
     setDevMode,
@@ -28,6 +30,7 @@ const SettingsPage: React.FC = () => {
   const { photos } = usePhotoStore();
   const [name, setName] = useState(partnerName);
   const [date, setDate] = useState(startDate);
+  const [bgUrl, setBgUrl] = useState(backgroundImage || '');
   const [saved, setSaved] = useState(false);
   const [importMsg, setImportMsg] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +38,7 @@ const SettingsPage: React.FC = () => {
   const handleSave = () => {
     setPartnerName(name);
     setStartDate(date);
+    setBackgroundImage(bgUrl.trim());
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
   };
@@ -42,8 +46,9 @@ const SettingsPage: React.FC = () => {
   const handleReset = () => {
     if (confirm('确定恢复默认设置吗？这不会影响照片。')) {
       reset();
-      setName('彤彤 ❤️ 苏木');
-      setDate('2026-09-03');
+      setName('心系小琪 ❤️ 我系小琪');
+      setDate('2026-09-15');
+      setBgUrl('');
     }
   };
 
@@ -69,7 +74,7 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 via-pink-50 to-white pb-28">
+    <div className="min-h-screen bg-gradient-to-b from-rose-50/40 via-pink-50/40 to-white/40 pb-28 backdrop-blur-[1px]">
       {/* 左上角快捷面板：开发者模式 + 保存 + 部署 */}
       <div className="sticky top-0 z-30 border-b border-pink-200 bg-white/90 px-3 py-2 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-2">
@@ -169,7 +174,7 @@ const SettingsPage: React.FC = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="例如：彤彤 ❤️ 苏木"
+            placeholder="例如：心系小琪 ❤️ 我系小琪"
             className="w-full rounded-lg border border-pink-200 px-3 py-2.5 text-sm focus:border-pink-400 focus:outline-none"
           />
           <p className="mt-2 text-xs text-gray-400">
@@ -188,6 +193,27 @@ const SettingsPage: React.FC = () => {
             className="w-full rounded-lg border border-pink-200 px-3 py-2.5 text-sm focus:border-pink-400 focus:outline-none"
           />
           <p className="mt-2 text-xs text-gray-400">用于计算「在一起 N 天」</p>
+        </div>
+
+        <div className="rounded-2xl bg-white p-5 shadow-md shadow-pink-100">
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            🖼️ 背景图片 URL
+          </label>
+          <input
+            type="text"
+            value={bgUrl}
+            onChange={(e) => setBgUrl(e.target.value)}
+            placeholder="留空使用粉紫渐变；填写则叠加图片"
+            className="w-full rounded-lg border border-pink-200 px-3 py-2.5 text-sm focus:border-pink-400 focus:outline-none"
+          />
+          <p className="mt-2 text-xs text-gray-400">
+            推荐用 jsDelivr CDN：https://cdn.jsdelivr.net/gh/你的用户名/love-photos@main/xxx.jpg
+          </p>
+          {bgUrl && (
+            <div className="mt-3 overflow-hidden rounded-lg border border-pink-100">
+              <img src={bgUrl} alt="预览" className="h-32 w-full object-cover" />
+            </div>
+          )}
         </div>
 
         <button
@@ -259,7 +285,7 @@ const SettingsPage: React.FC = () => {
         </button>
 
         <div className="mt-8 text-center text-xs text-gray-400">
-          <p>彤彤和苏木的 CP 小屋</p>
+          <p>心系小琪 ❤️ 我系小琪 的 CP 小屋</p>
           <p className="mt-1">v1.0 · 用心记录每一份甜蜜</p>
         </div>
       </div>

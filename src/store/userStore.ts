@@ -8,6 +8,7 @@ interface UserState extends UserConfig {
   setPartnerName: (name: string) => void;
   setStartDate: (date: string) => void;
   setAvatar: (avatar: string) => void;
+  setBackgroundImage: (url: string) => void;
   toggleDevMode: () => void;
   setDevMode: (v: boolean) => void;
   completeFirstVisit: () => void;
@@ -18,9 +19,10 @@ const defaultState: UserConfig & {
   isFirstVisit: boolean;
   devMode: boolean;
 } = {
-  partnerName: '彤彤 ❤️ 苏木',
-  startDate: '2026-09-03',
+  partnerName: '心系小琪 ❤️ 我系小琪',
+  startDate: '2026-09-15',
   avatar: undefined,
+  backgroundImage: '',
   isFirstVisit: true,
   devMode: false,
 };
@@ -32,6 +34,7 @@ export const useUserStore = create<UserState>()(
       setPartnerName: (name) => set({ partnerName: name }),
       setStartDate: (date) => set({ startDate: date }),
       setAvatar: (avatar) => set({ avatar }),
+      setBackgroundImage: (url) => set({ backgroundImage: url }),
       toggleDevMode: () => set((s) => ({ devMode: !s.devMode })),
       setDevMode: (v) => set({ devMode: v }),
       completeFirstVisit: () => set({ isFirstVisit: false }),

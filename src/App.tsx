@@ -1,12 +1,29 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Settings } from 'lucide-react';
 import Home from './pages/Home';
 import Timeline from './pages/Timeline';
 import SettingsPage from './pages/SettingsPage';
+import { useUserStore } from './store/userStore';
 
 function App() {
   const [currentTab, setCurrentTab] = useState<'home' | 'timeline' | 'settings'>('home');
   const timelineRef = useRef<HTMLElement | null>(null);
+  const backgroundImage = useUserStore((s) => s.backgroundImage);
+
+  // 根据 backgroundImage 切换 body 的背景图 class
+  useEffect(() => {
+    if (backgroundImage && backgroundImage.trim()) {
+      document.body.classList.add('with-bg-image');
+      document.body.style.setProperty('--bg-image-url', `url('${backgroundImage}')`);
+    } else {
+      document.body.classList.remove('with-bg-image');
+      document.body.style.removeProperty('--bg-image-url');
+    }
+    return () => {
+      document.body.classList.remove('with-bg-image');
+      document.body.style.removeProperty('--bg-image-url');
+    };
+  }, [backgroundImage]);
 
   const registerTimelineRef = (el: HTMLElement | null) => {
     timelineRef.current = el;
@@ -15,7 +32,6 @@ function App() {
   const scrollToTimeline = () => {
     if (currentTab !== 'timeline') {
       setCurrentTab('timeline');
-      // 等动画完成后再滚动
       setTimeout(() => {
         timelineRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -25,7 +41,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-rose-50 to-purple-50">
+    <div className="min-h-screen">
       {/* 左上角设置按钮 */}
       <button
         onClick={() => setCurrentTab('settings')}

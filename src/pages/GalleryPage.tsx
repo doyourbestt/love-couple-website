@@ -111,7 +111,7 @@ export const GalleryPage: React.FC = () => {
             <textarea
               value={newCaption}
               onChange={(e) => setNewCaption(e.target.value)}
-              placeholder="今天想和彤彤说..."
+              placeholder="今天想和小琪说..."
               rows={3}
               className="mb-3 w-full resize-none rounded-lg border border-pink-200 px-3 py-2 text-sm focus:border-pink-400 focus:outline-none"
             />

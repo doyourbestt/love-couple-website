@@ -62,16 +62,19 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
   };
 
   return (
-    <div ref={registerScrollTarget} className="max-w-3xl mx-auto px-4 py-8 relative z-10">
+    <div ref={registerScrollTarget} className="max-w-4xl mx-auto px-4 py-10 relative z-10">
+      {/* 顶部标题 */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-12">
-        <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-2">
-          <Clock className="w-8 h-8 text-rose-500" />
-          我们的时间轴
-        </h1>
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-coral via-pink-soft to-purple-light bg-clip-text text-transparent">
+            我们的时间轴
+          </h1>
+          <p className="text-text-secondary text-sm mt-1">回顾每一个值得珍藏的时刻 ⏳</p>
+        </div>
         {devMode && (
           <button
             onClick={openAdd}
-            className="px-5 py-2.5 bg-gradient-to-r from-rose-400 to-pink-400 text-white rounded-full font-medium shadow-lg shadow-rose-300/40 hover:shadow-xl transition-all flex items-center gap-2"
+            className="px-5 py-2.5 bg-gradient-to-r from-coral to-pink-soft text-white rounded-full font-medium shadow-lg shadow-coral/30 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             添加事件
@@ -80,49 +83,56 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
       </div>
 
       {events.length === 0 ? (
-        <div className="text-center py-20">
-          <Clock className="w-16 h-16 text-pink-300 mx-auto mb-4" />
-          <p className="text-xl text-gray-500">
+        <div className="text-center py-20 bg-card-bg backdrop-blur-sm rounded-3xl border border-pink-soft/20">
+          <Clock className="w-16 h-16 text-pink-soft mx-auto mb-4" />
+          <p className="text-xl text-text-secondary">
             {devMode ? '还没有记录哦，快来添加第一个重要时刻吧~' : '还没有时间轴记录'}
           </p>
         </div>
       ) : (
         <div className="relative">
-          {/* 时间线 */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-400 via-pink-300 to-purple-300 -translate-x-1/2" />
+          {/* 桌面端：中央竖线 / 手机端：左侧竖线 */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-coral via-pink-soft to-purple-light -translate-x-1/2" />
 
           {events.map((event, index) => {
             const isLeft = index % 2 === 0;
             return (
               <div
                 key={event.id}
-                className={`relative flex items-start mb-12 md:${isLeft ? 'flex-row' : 'flex-row-reverse'} flex-row animate-fadeInUp`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`relative mb-12 flex items-start animate-fade-in-up ${
+                  isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
+                } flex-row`}
+                style={{ animationDelay: `${index * 0.08}s` }}
               >
                 {/* 时间点 */}
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 bg-gradient-to-br from-rose-400 to-pink-400 rounded-full border-4 border-white shadow-md z-10" />
+                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-5 h-5 bg-gradient-to-br from-coral to-pink-soft rounded-full border-4 border-white shadow-md z-10" />
+
+                {/* 桌面端左右留空 + 日期 */}
+                <div className={`hidden md:flex w-[45%] ${isLeft ? 'justify-end pr-8' : 'justify-start pl-8'} items-center`}>
+                  <div className={`text-text-secondary text-sm ${isLeft ? 'text-right' : 'text-left'}`}>
+                    <div className="font-bold text-coral">{event.eventDate}</div>
+                  </div>
+                </div>
 
                 {/* 卡片 */}
-                <div
-                  className={`ml-14 md:ml-0 md:w-[45%] ${
-                    isLeft ? 'md:mr-auto md:pr-8' : 'md:ml-auto md:pl-8'
-                  } w-full`}
-                >
-                  <div className="bg-white/85 backdrop-blur-sm rounded-2xl p-6 shadow-md hover:shadow-xl hover:shadow-pink-200/40 transition-all duration-300 border border-pink-100 hover:-translate-y-1 group">
-                    {/* 头部：图标 + 日期 + 操作按钮 */}
+                <div className="ml-14 md:ml-0 md:w-[45%] w-[calc(100%-3.5rem)] group">
+                  <div className="bg-card-bg backdrop-blur-sm rounded-3xl p-6 shadow-md shadow-pink-soft/10 hover:shadow-xl hover:shadow-pink-soft/25 transition-all duration-300 hover:-translate-y-1 border border-pink-soft/20">
+                    {/* 移动端日期 + 图标 */}
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl">{event.icon}</span>
-                        <span className="text-sm text-rose-500 font-medium">{event.eventDate}</span>
+                        <span className="text-3xl">{event.icon}</span>
+                        <span className="md:hidden text-sm text-coral font-bold">
+                          {event.eventDate}
+                        </span>
                       </div>
                       {devMode && (
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-1 opacity-70 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               openEdit(event);
                             }}
-                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-pink-100 hover:text-rose-500 transition-all"
+                            className="w-8 h-8 rounded-full bg-purple-light/40 flex items-center justify-center text-text-secondary hover:bg-pink-soft/40 hover:text-coral transition-colors"
                             title="编辑"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -132,7 +142,7 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
                               e.stopPropagation();
                               setDeleteTarget(event.id);
                             }}
-                            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-red-100 hover:text-red-500 transition-all"
+                            className="w-8 h-8 rounded-full bg-purple-light/40 flex items-center justify-center text-text-secondary hover:bg-light-red/40 hover:text-coral transition-colors"
                             title="删除"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -142,11 +152,13 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
                     </div>
 
                     {/* 标题 */}
-                    <h3 className="text-xl font-semibold text-gray-700 mb-2">{event.title}</h3>
+                    <h3 className="text-lg md:text-xl font-semibold text-text-primary mb-2">
+                      {event.title}
+                    </h3>
 
                     {/* 图片 */}
                     {event.image && (
-                      <div className="mb-3 rounded-xl overflow-hidden">
+                      <div className="mb-3 rounded-2xl overflow-hidden bg-pink-soft/10">
                         <img
                           src={event.image}
                           alt={event.title}
@@ -157,12 +169,14 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
                     )}
 
                     {/* 描述 */}
-                    <p className="text-gray-600 leading-relaxed">{event.description}</p>
+                    <p className="text-text-secondary leading-relaxed text-sm md:text-base">
+                      {event.description}
+                    </p>
 
                     {/* 底部装饰 */}
-                    <div className="mt-4 flex items-center gap-1 text-rose-500">
-                      <Heart className="w-4 h-4 fill-rose-400" />
-                      <span className="text-sm">珍藏这一刻</span>
+                    <div className="mt-4 flex items-center gap-1 text-rose-gold text-xs">
+                      <Heart className="w-3.5 h-3.5 fill-pink-soft text-pink-soft" />
+                      <span>珍藏这一刻</span>
                     </div>
                   </div>
                 </div>
@@ -173,45 +187,45 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
       )}
 
       {/* 底部 */}
-      <div className="text-center py-8">
-        <p className="text-rose-400">未完待续... 💕</p>
+      <div className="text-center py-8 text-rose-gold text-sm">
+        <p>未完待续... 💕</p>
       </div>
 
       {/* 添加/编辑弹窗 */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-text-primary/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setShowForm(false)}
         >
           <div
-            className="relative max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl p-8 max-h-[90vh] overflow-y-auto animate-fadeInUp"
+            className="relative max-w-md w-full bg-white rounded-3xl overflow-hidden shadow-2xl p-6 md:p-8 max-h-[90vh] overflow-y-auto animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setShowForm(false)}
-              className="absolute top-4 right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+              className="absolute top-4 right-4 w-10 h-10 bg-purple-light/30 rounded-full flex items-center justify-center hover:bg-purple-light/50 transition-colors"
             >
-              <X className="w-5 h-5 text-gray-700" />
+              <X className="w-5 h-5 text-text-primary" />
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-700 mb-6 flex items-center gap-2">
-              <Clock className="w-6 h-6 text-rose-500" />
+            <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+              <Clock className="w-6 h-6 text-coral" />
               {editingId ? '编辑时刻' : '添加重要时刻'}
             </h2>
 
             <div className="space-y-4">
               {/* 图标选择 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">选择图标</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">选择图标</label>
                 <div className="flex flex-wrap gap-2">
                   {emojiOptions.map((emoji) => (
                     <button
                       key={emoji}
                       onClick={() => setFormData({ ...formData, icon: emoji })}
-                      className={`w-10 h-10 rounded-lg text-xl flex items-center justify-center transition-all ${
+                      className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all ${
                         formData.icon === emoji
-                          ? 'bg-rose-100 border-2 border-rose-400 scale-110'
-                          : 'bg-gray-100 hover:bg-pink-100'
+                          ? 'bg-pink-soft/30 border-2 border-coral scale-110'
+                          : 'bg-purple-light/20 hover:bg-pink-soft/20'
                       }`}
                     >
                       {emoji}
@@ -222,50 +236,50 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
 
               {/* 标题 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">标题</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">标题</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="例如：第一次旅行"
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-soft/40 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/20 transition-all bg-purple-light/10"
                 />
               </div>
 
               {/* 日期 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">日期</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">日期</label>
                 <input
                   type="date"
                   value={formData.eventDate}
                   onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-soft/40 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/20 transition-all bg-purple-light/10"
                 />
               </div>
 
               {/* 描述 */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">描述</label>
+                <label className="block text-sm font-medium text-text-primary mb-2">描述</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="记录这个特别的时刻..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-soft/40 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/20 transition-all resize-none bg-purple-light/10"
                 />
               </div>
 
               {/* 图片URL */}
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
-                  图片URL <span className="text-gray-400">(可选)</span>
+                <label className="block text-sm font-medium text-text-primary mb-2">
+                  图片URL <span className="text-text-secondary">(可选)</span>
                 </label>
                 <input
                   type="text"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   placeholder="https://..."
-                  className="w-full px-4 py-3 rounded-xl border border-pink-200 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-pink-soft/40 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/20 transition-all bg-purple-light/10"
                 />
               </div>
 
@@ -273,7 +287,7 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
               <button
                 onClick={handleSave}
                 disabled={!formData.title || !formData.eventDate || !formData.description}
-                className="w-full py-3 bg-gradient-to-r from-rose-400 to-pink-400 text-white rounded-xl font-medium shadow-lg shadow-rose-300/40 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-gradient-to-r from-coral to-pink-soft text-white rounded-xl font-medium shadow-lg shadow-coral/30 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {editingId ? '保存修改 💕' : '珍藏这个时刻 💕'}
               </button>
@@ -285,25 +299,25 @@ export default function Timeline({ registerScrollTarget }: TimelineProps) {
       {/* 删除确认 */}
       {deleteTarget && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-text-primary/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setDeleteTarget(null)}
         >
           <div
-            className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl"
+            className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-xl font-bold text-gray-700 mb-2">删除事件</h3>
-            <p className="text-gray-500 mb-6">确定要删除这个事件吗？删除后无法恢复。</p>
+            <h3 className="text-xl font-bold text-text-primary mb-2">删除事件</h3>
+            <p className="text-text-secondary mb-6">确定要删除这个事件吗？删除后无法恢复。</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-colors"
+                className="flex-1 py-2.5 rounded-xl bg-purple-light/30 text-text-primary font-medium hover:bg-purple-light/50 transition-colors"
               >
                 取消
               </button>
               <button
                 onClick={() => handleDelete(deleteTarget)}
-                className="flex-1 py-2.5 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
+                className="flex-1 py-2.5 rounded-xl bg-coral text-white font-medium hover:bg-coral/90 transition-colors"
               >
                 删除
               </button>
